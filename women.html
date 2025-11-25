@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELORA | Women's Collection</title>
+    
+    <!-- Google Fonts Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* --- RESET & VARIABLES (Shared) --- */
+        :root {
+            --font-display: 'Big Shoulders Display', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+            
+            --color-black: #0a0a0a;
+            --color-white: #ffffff;
+            --color-grey-light: #f4f4f4;
+            --color-grey-med: #e0e0e0;
+            --color-grey-dark: #333333;
+            --color-accent: #ff4d00;
+            
+            --spacing-container: 8%;
+            --radius-std: 12px;
+            --radius-pill: 50px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-black);
+            background-color: var(--color-white);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- UTILITIES --- */
+        .container {
+            padding: 0 var(--spacing-container);
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-display);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid currentColor;
+        }
+
+        .btn-light {
+            background: var(--color-white);
+            color: var(--color-black);
+            border-color: var(--color-white);
+        }
+        .btn-light:hover { background: transparent; color: var(--color-white); }
+
+        .btn-dark {
+            background: var(--color-black);
+            color: var(--color-white);
+            border-color: var(--color-black);
+        }
+        .btn-dark:hover { background: transparent; color: var(--color-black); }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            line-height: 0.9;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        /* --- HEADER --- */
+        .velora-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px var(--spacing-container);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+            color: white;
+        }
+
+        .brand-logo {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 1.8rem;
+            letter-spacing: -1px;
+        }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-size: 0.9rem; font-weight: 500; text-transform: uppercase; position: relative; }
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+        }
+
+        .header-actions { display: flex; gap: 20px; font-size: 1.2rem; }
+
+        /* --- PAGE SPECIFIC: HERO --- */
+        .page-hero {
+            position: relative;
+            height: 60vh;
+            width: 96%;
+            margin: 2vh auto 0;
+            border-radius: var(--radius-std);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            background: #111;
+        }
+
+        .page-hero img {
+            position: absolute;
+            inset: 0;
+            opacity: 0.6;
+        }
+        
+        .page-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+
+        /* --- FILTERS --- */
+        .filter-bar {
+            padding: 40px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 60px;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: var(--radius-pill);
+            border: 1px solid #e0e0e0;
+            background: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-body);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--color-black);
+            color: white;
+            border-color: var(--color-black);
+        }
+
+        /* --- PRODUCT GRID (Expanded) --- */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 100px;
+        }
+
+        .product-card {
+            background: var(--color-grey-light);
+            border-radius: var(--radius-std);
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover { transform: translateY(-5px); }
+
+        .card-image-wrapper {
+            height: 450px;
+            position: relative;
+        }
+
+        .price-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--color-black);
+            color: var(--color-white);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .new-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--color-accent);
+            color: var(--color-white);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .card-details { padding: 20px; }
+        .card-details h3 { font-size: 1.5rem; margin-bottom: 8px; }
+        .card-details p { font-size: 0.9rem; color: #666; }
+
+        /* --- FEATURED COLLECTION BANNER --- */
+        .collection-banner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background-color: var(--color-grey-dark);
+            color: white;
+            border-radius: var(--radius-std);
+            overflow: hidden;
+            margin-bottom: 100px;
+        }
+
+        .banner-content {
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .banner-image { height: 100%; min-height: 400px; }
+
+        /* --- FOOTER (Same as Index) --- */
+        footer {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: 80px var(--spacing-container);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h5 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .footer-col ul li { margin-bottom: 10px; font-size: 0.9rem; color: #aaa; }
+        .footer-col ul li:hover { color: white; cursor: pointer; }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @media (max-width: 1024px) {
+            .collection-banner { grid-template-columns: 1fr; }
+            .banner-content { padding: 40px; text-align: center; align-items: center; }
+            .banner-image { height: 300px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .page-title { font-size: 3.5rem; }
+            .filter-bar { gap: 10px; overflow-x: auto; justify-content: flex-start; padding-left: 20px; padding-right: 20px; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+            .filter-btn { flex-shrink: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="velora-header">
+        <div class="brand-logo"><a href="index.html">VELORA.</a></div>
+        <nav class="nav-links">
+            <a href="men">Men</a>
+            <a href="women.html">Women</a>
+            <a href="new-arrivals.html">New Arrivals</a>
+            <a href="collections.html">Collections</a>
+        </nav>
+        <div class="header-actions">
+            <i class="ph ph-magnifying-glass"></i>
+            <i class="ph ph-shopping-bag"></i>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <img src="https://images.unsplash.com/photo-1581338834647-b0fb40704e21?q=80&w=1920&auto=format&fit=crop" alt="Women Fashion Hero">
+        <div class="page-hero-content">
+            <p style="text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 600;">Spring / Summer 2025</p>
+            <h1 class="page-title">WOMEN'S<br>EDITION</h1>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <button class="filter-btn active">All Items</button>
+            <button class="filter-btn">New Drops</button>
+            <button class="filter-btn">Outerwear</button>
+            <button class="filter-btn">Dresses</button>
+            <button class="filter-btn">Tops</button>
+            <button class="filter-btn">Activewear</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="card-image-wrapper">
+                    <div class="new-badge">NEW</div>
+                    <div class="price-badge">$135</div>
+                    <img src="https://images.pexels.com/photos/1877736/pexels-photo-1877736.jpeg" alt="Woman Jacket">
+                </div>
+                <div class="card-details">
+                    <h3>Structured Blazer</h3>
+                    <p>Oversized silhouette in charcoal.</p>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="card-image-wrapper">
+                    <div class="price-badge">$65</div>
+                    <img src="https://images.unsplash.com/photo-1503342394128-c104d54dba01?q=80&w=1000&auto=format&fit=crop" alt="Woman Top">
+                </div>
+                <div class="card-details">
+                    <h3>Ribbed Crop Top</h3>
+                    <p>Breathable tech fabric.</p>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="card-image-wrapper">
+                    <div class="price-badge">$110</div>
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop" alt="Woman Hoodie">
+                </div>
+                <div class="card-details">
+                    <h3>Boyfriend Hoodie</h3>
+                    <p>Ultra-soft fleece lining.</p>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="card-image-wrapper">
+                    <div class="price-badge">$180</div>
+                    <img src="https://images.pexels.com/photos/965918/pexels-photo-965918.jpeg" alt="Woman Coat">
+                </div>
+                <div class="card-details">
+                    <h3>Tech Trench</h3>
+                    <p>Water-resistant urban coat.</p>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="card-image-wrapper">
+                    <div class="price-badge">$85</div>
+                    <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1000&auto=format&fit=crop" alt="Woman Pants">
+                </div>
+                <div class="card-details">
+                    <h3>Utility Cargo Pants</h3>
+                    <p>Relaxed fit with ample storage.</p>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="card-image-wrapper">
+                    <div class="new-badge">HOT</div>
+                    <div class="price-badge">$220</div>
+                    <img src="https://images.unsplash.com/photo-1596783074918-c84cb06531ca?q=80&w=1000&auto=format&fit=crop" alt="Woman Set">
+                </div>
+                <div class="card-details">
+                    <h3>Monochrome Set</h3>
+                    <p>Coordinated street style look.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Collection Banner -->
+        <section class="collection-banner">
+            <div class="banner-content">
+                <h2 style="font-size: 3rem; margin-bottom: 20px;">The Urban<br>Silhouette</h2>
+                <p style="margin-bottom: 30px; opacity: 0.8;">
+                    Redefining femininity through strength and structure. 
+                    Bold lines meets effortless comfort in our latest drop.
+                </p>
+                <a href="#" class="btn btn-light" style="width: fit-content;">Shop The Look</a>
+            </div>
+            <div class="banner-image">
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop" alt="Fashion Editorial">
+            </div>
+        </section>
+
+        <!-- More Products -->
+        <h4 class="section-title" style="font-size: 2rem;">Accessories</h4>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="card-image-wrapper" style="height: 350px;">
+                    <div class="price-badge">$250</div>
+                    <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=1000&auto=format&fit=crop" alt="Bag">
+                </div>
+                <div class="card-details">
+                    <h3>Mini Leather Tote</h3>
+                    <p>Minimalist design, maximum impact.</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="card-image-wrapper" style="height: 350px;">
+                    <div class="price-badge">$150</div>
+                    <img src="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?q=80&w=1000&auto=format&fit=crop" alt="Boots">
+                </div>
+                <div class="card-details">
+                    <h3>Combat Boots</h3>
+                    <p>Durable leather with platform sole.</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="card-image-wrapper" style="height: 350px;">
+                    <div class="price-badge">$80</div>
+                    <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=1000&auto=format&fit=crop" alt="Sunglasses">
+                </div>
+                <div class="card-details">
+                    <h3>Shield Sunglasses</h3>
+                    <p>Futuristic frame design.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 style="font-size: 1.5rem; margin-bottom: 20px;">VELORA.</h3>
+                <p style="color: #999; line-height: 1.6;">
+                    The intersection of digital culture and physical wear. 
+                    Defined by the streets, refined by technology.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h5>Shop</h5>
+                <ul>
+                    <li>New Arrivals</li>
+                    <li>Best Sellers</li>
+                    <li>Accessories</li>
+                    <li>Sale</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Info</h5>
+                <ul>
+                    <li>About Us</li>
+                    <li>Contact</li>
+                    <li>Shipping</li>
+                    <li>Returns</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Social</h5>
+                <ul>
+                    <li>Instagram</li>
+                    <li>Twitter</li>
+                    <li>TikTok</li>
+                    <li>YouTube</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 Velora Fashion. All rights reserved.</p>
+            <p>Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+</body>
+</html>

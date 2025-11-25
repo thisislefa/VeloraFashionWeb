@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELORA | About Us</title>
+    
+    <!-- Google Fonts Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* --- RESET & VARIABLES (Shared) --- */
+        :root {
+            --font-display: 'Big Shoulders Display', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+            
+            --color-black: #0a0a0a;
+            --color-white: #ffffff;
+            --color-grey-light: #f4f4f4;
+            --color-grey-med: #e0e0e0;
+            --color-grey-dark: #333333;
+            --color-accent: #ff4d00;
+            
+            --spacing-container: 8%;
+            --radius-std: 12px;
+            --radius-pill: 50px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-black);
+            background-color: var(--color-white);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- UTILITIES --- */
+        .container {
+            padding: 0 var(--spacing-container);
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-display);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid currentColor;
+        }
+
+        .btn-light {
+            background: var(--color-white);
+            color: var(--color-black);
+            border-color: var(--color-white);
+        }
+        .btn-light:hover { background: transparent; color: var(--color-white); }
+
+        .btn-dark {
+            background: var(--color-black);
+            color: var(--color-white);
+            border-color: var(--color-black);
+        }
+        .btn-dark:hover { background: transparent; color: var(--color-black); }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            line-height: 0.9;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .lead-text {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.7;
+            max-width: 600px;
+        }
+
+        /* --- HEADER --- */
+        .velora-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px var(--spacing-container);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+            color: white;
+        }
+
+        .brand-logo {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 1.8rem;
+            letter-spacing: -1px;
+        }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-size: 0.9rem; font-weight: 500; text-transform: uppercase; position: relative; }
+        .nav-links a:hover { opacity: 0.7; }
+
+        .header-actions { display: flex; gap: 20px; font-size: 1.2rem; }
+
+        /* --- ABOUT HERO --- */
+        .about-hero {
+            padding: 180px var(--spacing-container) 100px;
+            background-color: var(--color-black);
+            color: var(--color-white);
+            text-align: center;
+            border-bottom-left-radius: var(--radius-std);
+            border-bottom-right-radius: var(--radius-std);
+        }
+
+        .about-hero h1 {
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-weight: 900;
+            margin-bottom: 30px;
+        }
+
+        .about-hero p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        /* --- STORY SECTION (Split) --- */
+        .section-story {
+            padding: 100px 0;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .story-content h2 {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            line-height: 0.85;
+        }
+
+        .story-image {
+            height: 600px;
+            border-radius: var(--radius-std);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .story-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.1);
+        }
+
+        /* --- VALUES GRID --- */
+        .section-values {
+            padding: 80px var(--spacing-container);
+            background-color: var(--color-grey-light);
+            border-radius: var(--radius-std);
+            margin: 40px var(--spacing-container);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .value-card {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius-std);
+            transition: transform 0.3s;
+        }
+        
+        .value-card:hover { transform: translateY(-10px); }
+
+        .value-card i {
+            font-size: 2.5rem;
+            color: var(--color-accent);
+            margin-bottom: 20px;
+        }
+
+        .value-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .value-card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* --- STUDIO/TEAM VISUALS --- */
+        .section-studio {
+            padding: 100px 0;
+        }
+
+        .studio-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 300px 300px;
+            gap: 20px;
+        }
+
+        .studio-item {
+            border-radius: var(--radius-std);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .studio-item.large {
+            grid-row: span 2;
+        }
+
+        .overlay-label {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 5px 15px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: var(--radius-pill);
+            font-size: 0.9rem;
+        }
+
+        /* --- STATS BAR --- */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 60px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 100px;
+        }
+
+        .stat-block {
+            text-align: center;
+        }
+
+        .stat-block .number {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1;
+            display: block;
+        }
+
+        .stat-block .label {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* --- FOOTER (Consistent) --- */
+        footer {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: 80px var(--spacing-container);
+            margin-top: 80px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h5 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .footer-col ul li { margin-bottom: 10px; font-size: 0.9rem; color: #aaa; }
+        .footer-col ul li:hover { color: white; cursor: pointer; }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @media (max-width: 1024px) {
+            .story-grid { grid-template-columns: 1fr; }
+            .story-image { order: -1; height: 400px; }
+            .studio-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .studio-item.large { height: 400px; }
+            .studio-item { height: 300px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .values-grid { grid-template-columns: 1fr; }
+            .stats-bar { flex-direction: column; gap: 40px; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .about-hero h1 { font-size: 4rem; }
+            .section-values { margin: 40px 0; border-radius: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="velora-header">
+        <div class="brand-logo"><a href="index.html">VELORA.</a></div>
+        <nav class="nav-links">
+            <a href="men">Men</a>
+            <a href="women.html">Women</a>
+            <a href="new-arrivals.html">New Arrivals</a>
+            <a href="collections.html">Collections</a>
+        </nav>
+        <div class="header-actions">
+            <i class="ph ph-magnifying-glass"></i>
+            <i class="ph ph-shopping-bag"></i>
+        </div>
+    </header>
+
+    <!-- About Hero -->
+    <section class="about-hero">
+        <div class="container">
+            <h1 style="line-height: 0.9;">DEFINED BY STREETS.<br><span style="color: var(--color-accent);">REFINED BY TECH.</span></h1>
+            <p>Velora is an experimental fashion lab bridging the gap between digital culture and physical wear. We don't just design clothes; we engineer attitudes.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Story Section -->
+        <section class="section-story">
+            <div class="story-grid">
+                <div class="story-content">
+                    <h4 style="color: var(--color-accent); margin-bottom: 20px; font-size: 1.2rem;">THE ORIGIN</h4>
+                    <h2>WEARING THE<br>ALGORITHM</h2>
+                    <p class="lead-text">
+                        Founded in 2024, Velora emerged from a simple question: What does the internet look like when you wear it? 
+                        <br><br>
+                        We started in a small basement studio, screen-printing glitched graphics onto thrifted hoodies. Today, we are a global collective of designers, coders, and artists obsessed with the future of silhouette and fabric. Our aesthetic is unapologetically brutalist, yet comfortable enough for the apocalypse.
+                    </p>
+                    <br>
+                    <img src="https://images.unsplash.com/photo-1634934674069-7925c48b788c?q=80&w=600&auto=format&fit=crop" alt="Signature" style="width: 150px; opacity: 0.6; display: block;">
+                </div>
+                <div class="story-image">
+                    <img src="https://images.pexels.com/photos/4428388/pexels-photo-4428388.jpeg" alt="Design Process">
+                </div>
+            </div>
+        </section>
+        
+        <!-- Stats -->
+        <div class="stats-bar">
+            <div class="stat-block">
+                <span class="number">04</span>
+                <span class="label">Collections Dropped</span>
+            </div>
+            <div class="stat-block">
+                <span class="number">28</span>
+                <span class="label">Countries Served</span>
+            </div>
+            <div class="stat-block">
+                <span class="number">100%</span>
+                <span class="label">Sustainable Cotton</span>
+            </div>
+            <div class="stat-block">
+                <span class="number">2024</span>
+                <span class="label">Established</span>
+            </div>
+        </div>
+
+        <!-- Studio Grid -->
+        <section class="section-studio">
+            <h2 class="section-title" style="text-align: center; margin-bottom: 60px;">Inside The Lab</h2>
+            <div class="studio-grid">
+                <div class="studio-item large">
+                    <img src="https://images.unsplash.com/photo-1558507652-2d9626c4e67a?q=80&w=1000&auto=format&fit=crop" alt="Studio Main">
+                    <div class="overlay-label">Design HQ</div>
+                </div>
+                <div class="studio-item">
+                    <img src="https://images.unsplash.com/photo-1516961642265-531546e84af2?q=80&w=800&auto=format&fit=crop" alt="Materials">
+                    <div class="overlay-label">Materials</div>
+                </div>
+                <div class="studio-item">
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800&auto=format&fit=crop" alt="Concept">
+                    <div class="overlay-label">Concept</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Values Section (Full Width BG) -->
+    <section class="section-values">
+        <div class="container">
+            <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                <h2 class="section-title">Core Principles</h2>
+                <p>We adhere to three strict rules in everything we produce.</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card">
+                    <i class="ph ph-scan"></i>
+                    <h3>Transparency</h3>
+                    <p>No hidden supply chains. We show you exactly where your gear comes from and who made it.</p>
+                </div>
+                <div class="value-card">
+                    <i class="ph ph-recycle"></i>
+                    <h3>Circularity</h3>
+                    <p>Designed to be remade. Return your old Velora items for credit towards new drops.</p>
+                </div>
+                <div class="value-card">
+                    <i class="ph ph-lightning"></i>
+                    <h3>Utility</h3>
+                    <p>Fashion without function is just decoration. Every pocket, strap, and seam serves a purpose.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 style="font-size: 1.5rem; margin-bottom: 20px;">VELORA.</h3>
+                <p style="color: #999; line-height: 1.6;">
+                    The intersection of digital culture and physical wear. 
+                    Defined by the streets, refined by technology.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h5>Shop</h5>
+                <ul>
+                    <li>New Arrivals</li>
+                    <li>Best Sellers</li>
+                    <li>Accessories</li>
+                    <li>Sale</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Info</h5>
+                <ul>
+                    <li>About Us</li>
+                    <li>Contact</li>
+                    <li>Shipping</li>
+                    <li>Returns</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Social</h5>
+                <ul>
+                    <li>Instagram</li>
+                    <li>Twitter</li>
+                    <li>TikTok</li>
+                    <li>YouTube</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 Velora Fashion. All rights reserved.</p>
+            <p>Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+</body>
+</html>
