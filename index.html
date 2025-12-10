@@ -3,6 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Popup Module</title>
+    <!-- Importing Inter for consistency, though the popup defines its own font stack backup -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* * START OF POPUP CSS 
+         * Copy everything between START and END markers to your main stylesheet 
+         * or keep it in this <style> block.
+         */
+
+        /* Scoped namespace to prevent conflicts: 'pdp-' (Portfolio Demo Popup) */
+        .pdp-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75); /* Dark overlay */
+            z-index: 99999; /* Very high z-index to sit on top of everything */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            backdrop-filter: blur(4px); /* Modern blur effect */
+        }
+
+        .pdp-overlay.pdp-active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .pdp-modal {
+            background-color: #ffffff;
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 4px; /* Sharp, clean edges */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-align: center;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #1a1a1a;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            border: 1px solid #e5e5e5;
+        }
+
+        .pdp-overlay.pdp-active .pdp-modal {
+            transform: translateY(0);
+        }
+
+        /* Header / Icon Area */
+        .pdp-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background-color: #f5f5f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+        }
+        
+        .pdp-icon-svg {
+            width: 24px;
+            height: 24px;
+            fill: #333;
+        }
+
+        /* Typography */
+        .pdp-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 15px 0;
+            color: #000000;
+            letter-spacing: -0.02em;
+        }
+
+        .pdp-message {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #666666;
+            margin-bottom: 30px;
+        }
+
+        .pdp-highlight {
+            font-weight: 600;
+            color: #000000;
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        /* Action Area */
+        .pdp-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .pdp-btn-primary {
+            display: inline-block;
+            background-color: #000000;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            border: 1px solid #000000;
+        }
+
+        .pdp-btn-primary:hover {
+            background-color: #333333;
+            border-color: #333333;
+        }
+
+        .pdp-btn-secondary {
+            background: none;
+            border: none;
+            color: #676767;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 5px;
+            transition: color 0.2s;
+        }
+
+        .pdp-btn-secondary:hover {
+            color: #000000;
+        }
+        
+        /* Mobile adjustment */
+        @media (max-width: 480px) {
+            .pdp-modal {
+                padding: 30px 20px;
+            }
+            .pdp-title {
+                font-size: 1.25rem;
+            }
+        }
+        
+        /* END OF POPUP CSS */
+
+    </style>
+</head>
+<body>
+
+    <!-- 
+      START OF POPUP HTML 
+      Paste this snippet directly before the closing </body> tag of your website.
+    -->
+    <div id="pdp-overlay" class="pdp-overlay">
+        <div class="pdp-modal">
+            <div class="pdp-icon-wrapper">
+                <!-- Simple "Lock" or "Info" Icon -->
+                <svg class="pdp-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+            </div>
+            
+            <h2 class="pdp-title">Preview Mode</h2>
+            
+            <p class="pdp-message">
+                You are currently viewing a demonstration version of this portfolio project. 
+                To access the fully operational website or explore the complete feature set, 
+                please purchase the full license.
+            </p>
+
+            <div class="pdp-actions">
+                <a href="mailto:lefamjack@gmail.com?subject=Inquiry%20about%20Portfolio%20Purchase" class="pdp-btn-primary">
+                    Contact to Purchase
+                </a>
+                <button id="pdp-close-btn" class="pdp-btn-secondary">
+                    Continue viewing demo
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- END OF POPUP HTML -->
+
+
+    <!-- 
+      START OF POPUP JS 
+      Paste this inside a <script> tag at the bottom of your page.
+    -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configuration
+            const POPUP_ID = 'pdp-overlay';
+            const CLOSE_BTN_ID = 'pdp-close-btn';
+            
+            const popup = document.getElementById(POPUP_ID);
+            const closeBtn = document.getElementById(CLOSE_BTN_ID);
+            
+            // Function to show popup
+            function showDemoPopup() {
+                // Check if user has already seen it this session (optional logic)
+                // Remove the sessionStorage check if you want it to appear EVERY time the page loads
+                if (!sessionStorage.getItem('pdp-seen')) {
+                    setTimeout(() => {
+                        popup.classList.add('pdp-active');
+                    }, 1000); // Small delay for smooth entrance after page load
+                }
+            }
+
+            // Function to close popup
+            function closeDemoPopup() {
+                popup.classList.remove('pdp-active');
+                // Set flag so it doesn't pop up again in this session
+                sessionStorage.setItem('pdp-seen', 'true');
+            }
+
+            // Event Listeners
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeDemoPopup);
+            }
+            
+            // Optional: Close on outside click
+            popup.addEventListener('click', function(e) {
+                if (e.target === popup) {
+                    closeDemoPopup();
+                }
+            });
+
+            // Initialize
+            showDemoPopup();
+        });
+    </script>
+    <!-- END OF POPUP JS -->
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VELORA | Future-Ready Fashion</title>
     
     <!-- Google Fonts Import -->
